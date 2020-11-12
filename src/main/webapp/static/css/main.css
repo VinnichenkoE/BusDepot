@@ -1,0 +1,23 @@
+.nav_bar {
+    font-family: 'Lemonada', cursive;
+    font-weight: inherit;
+    font-size: 28px;
+    background-image: url("../img/bium_prism_posterframe_header.png"); height: 250px;
+}
+.btn-outline-info {
+    color: #171a1d;
+}
+
+.field {
+    margin-top: 15px;
+}
+
+.account {
+    font-family: 'Lemonada', cursive;
+    font-size: 20px;
+    color: #2a7b9b;
+}
+
+.content {
+    min-height: calc(100vh - 350px);
+}
