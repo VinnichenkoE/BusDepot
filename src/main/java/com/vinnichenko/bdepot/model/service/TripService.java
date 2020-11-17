@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TripService {
     boolean startTrip(long userId, long orderId) throws ServiceException;
+
     List<Trip> findByUserId(long userId) throws ServiceException;
-    boolean finishTrip(long tripId) throws ServiceException;
+
+    boolean finishTrip(String tripId) throws ServiceException;
 }

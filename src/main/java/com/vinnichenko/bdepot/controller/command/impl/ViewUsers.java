@@ -17,20 +17,19 @@ import java.util.List;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
 public class ViewUsers implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router(PagePath.VIEW_USERS);
+        Router router = new Router(PagePath.VIEW_USERS_PAGE);
         UserService userService = ServiceFactory.getInstance().getUserService();
         List<User> users;
         try {
             users = userService.findAll();
             req.setAttribute(USERS, users);
         } catch (ServiceException e) {
-            router.setForward(PagePath.ERROR_404);
            logger.error("find all users error", e);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

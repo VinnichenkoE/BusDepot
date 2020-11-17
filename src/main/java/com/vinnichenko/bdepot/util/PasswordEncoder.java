@@ -8,9 +8,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import com.vinnichenko.bdepot.exception.UtilException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 public class PasswordEncoder {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static final int ITERATIONS = 20 * 1000;
     private static final int SALT_LENGTH = 32;
     private static final int DESIRED_KEY_LENGTH = 256;
@@ -48,6 +51,7 @@ public class PasswordEncoder {
                     password.toCharArray(), salt, ITERATIONS, DESIRED_KEY_LENGTH)
             );
         } catch (GeneralSecurityException ex) {
+            LOGGER.error("error during password encryption", ex);
             throw new UtilException(ex);
         }
         return Base64.encodeBase64String(key.getEncoded());

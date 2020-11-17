@@ -1,9 +1,9 @@
 package com.vinnichenko.bdepot.controller.command.impl;
 
-
 import com.vinnichenko.bdepot.controller.PagePath;
 import com.vinnichenko.bdepot.controller.command.Command;
 import com.vinnichenko.bdepot.controller.router.Router;
+import com.vinnichenko.bdepot.controller.router.RouterType;
 import com.vinnichenko.bdepot.exception.ServiceException;
 import com.vinnichenko.bdepot.model.creator.UserCreator;
 import com.vinnichenko.bdepot.model.entity.User;
@@ -21,12 +21,11 @@ import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
 public class UpdateUser implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router(PagePath.ACCOUNT);
+        Router router = new Router(PagePath.ACCOUNT, RouterType.REDIRECT);
         Map<String, String> parameters = new HashMap<>();
         UserService userService = ServiceFactory.getInstance().getUserService();
         User user = (User) req.getSession().getAttribute(USER);
@@ -49,7 +48,7 @@ public class UpdateUser implements Command {
             }
         } catch (ServiceException e) {
             logger.error("User update error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

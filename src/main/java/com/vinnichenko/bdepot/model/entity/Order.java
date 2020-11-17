@@ -2,7 +2,7 @@ package com.vinnichenko.bdepot.model.entity;
 
 import java.io.Serializable;
 
-public class Order implements Serializable {
+public class Order implements Serializable, Cloneable {
 
     public enum OrderStatus {
         SUBMITTED,

@@ -2,14 +2,20 @@ package com.vinnichenko.bdepot.model.service.impl;
 
 import com.vinnichenko.bdepot.exception.DaoException;
 import com.vinnichenko.bdepot.exception.ServiceException;
+import com.vinnichenko.bdepot.exception.TransactionException;
+import com.vinnichenko.bdepot.model.creator.OrderCreator;
 import com.vinnichenko.bdepot.model.dao.DaoFactory;
 import com.vinnichenko.bdepot.model.dao.OrderDao;
+import com.vinnichenko.bdepot.model.dao.TransactionManager;
 import com.vinnichenko.bdepot.model.entity.Order;
 import com.vinnichenko.bdepot.model.service.OrderService;
 import com.vinnichenko.bdepot.validator.DataValidator;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static com.vinnichenko.bdepot.controller.RequestParameter.USER_ID;
 
 public class OrderServiceImpl implements OrderService {
     @Override
@@ -39,13 +45,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public long save(long userId, Order order) throws ServiceException {
-        OrderDao dao = DaoFactory.getInstance().getOrderDao();
-        long id;
-        try {
-            id = dao.save(order, userId);
-        } catch (DaoException e) {
-            throw new ServiceException("Save order error", e);
+    public long save(Map<String, String> parameters) throws ServiceException {
+        TransactionManager transactionManager = TransactionManager.getInstance();
+        long id = -1L;
+        if (DataValidator.checkOrderData(parameters)) {
+            Order order = OrderCreator.createOrder(parameters);
+            long userId = Long.parseLong(parameters.get(USER_ID));
+            try {
+                id = transactionManager.addOrder(order, userId);
+            } catch (TransactionException e) {
+                throw new ServiceException("Add order error", e);
+            }
         }
         return id;
     }
@@ -63,13 +73,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public boolean appointUser(int userId, int bidId) throws ServiceException {
-        OrderDao dao = DaoFactory.getInstance().getOrderDao();
-        boolean result;
-        try {
-            result = dao.appointUser(userId, bidId);
-        } catch (DaoException e) {
-            throw new ServiceException("Appoint user error", e);
+    public boolean appointDriver(String stringUserId, String stringOrderId) throws ServiceException {
+        TransactionManager transactionManager = TransactionManager.getInstance();
+        boolean result = false;
+        if (DataValidator.isNumber(stringUserId) && DataValidator.isNumber(stringOrderId)) {
+            long userId = Long.parseLong(stringUserId);
+            long orderId = Long.parseLong(stringOrderId);
+            try {
+                result = transactionManager.appointDriver(userId, orderId);
+            } catch (TransactionException e) {
+                throw new ServiceException("Appoint user error", e);
+            }
         }
         return result;
     }

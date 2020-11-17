@@ -2,12 +2,13 @@ package com.vinnichenko.bdepot.model.service.impl;
 
 import com.vinnichenko.bdepot.exception.DaoException;
 import com.vinnichenko.bdepot.exception.ServiceException;
+import com.vinnichenko.bdepot.exception.TransactionException;
 import com.vinnichenko.bdepot.model.dao.*;
-import com.vinnichenko.bdepot.model.entity.Bill;
 import com.vinnichenko.bdepot.model.entity.Bus;
-import com.vinnichenko.bdepot.model.entity.Order;
 import com.vinnichenko.bdepot.model.entity.Trip;
 import com.vinnichenko.bdepot.model.service.TripService;
+import com.vinnichenko.bdepot.util.DateUtil;
+import com.vinnichenko.bdepot.validator.DataValidator;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -16,17 +17,14 @@ import java.util.Optional;
 
 public class TripServiceImpl implements TripService {
     public boolean startTrip(long userId, long orderId) throws ServiceException {
-        TripDao tripDao = DaoFactory.getInstance().getTripDao();
-        OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
+        TransactionManager transactionManager = TransactionManager.getInstance();
         long startDate = Instant.now().toEpochMilli();
         Trip trip = new Trip(startDate, 0L, BigDecimal.ZERO, orderId, userId);
-        boolean result = false;
+        boolean result;
         try {
-            if (tripDao.save(trip) > 0) {
-                result = orderDao.updateOrderStatus(orderId, Order.OrderStatus.IN_PROCESS);
-            }
-        } catch (DaoException e) {
-            throw new ServiceException("start trip error", e);
+            result = transactionManager.startTrip(trip);
+        } catch (TransactionException e) {
+            throw new ServiceException("Start trip error", e);
         }
         return result;
     }
@@ -38,38 +36,38 @@ public class TripServiceImpl implements TripService {
         try {
             trips = tripDao.findByUserId(userId);
         } catch (DaoException e) {
-            throw new ServiceException("", e);
+            throw new ServiceException("Find by user  id error", e);
         }
         return trips;
     }
 
     @Override
-    public boolean finishTrip(long tripId) throws ServiceException {
+    public boolean finishTrip(String tripId) throws ServiceException {
         TripDao tripDao = DaoFactory.getInstance().getTripDao();
         BusDao busDao = DaoFactory.getInstance().getBusDao();
-        OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
-        BillDao billDao = DaoFactory.getInstance().getBillDao();
+        TransactionManager transactionManager = TransactionManager.getInstance();
         Optional<Trip> trip;
         Bus bus;
         boolean result = false;
         try {
-            trip = tripDao.findById(tripId);
-            if (trip.isPresent()) {
-                long userId = trip.get().getUserId();
-                bus = busDao.findByUserId(userId).get(0);
-                trip.get().setEndDate(Instant.now().toEpochMilli());
-                long hours = (trip.get().getEndDate() - trip.get().getStartDate()) / (1000 * 60 * 60);
-                BigDecimal cost = bus.getRate().multiply(BigDecimal.valueOf(hours));
-                trip.get().setCost(cost);
-                if (tripDao.update(trip.get())) {
-                    orderDao.updateOrderStatus(trip.get().getOrderId(), Order.OrderStatus.COMPLETED);
-                    long customerId = orderDao.findCustomerId(trip.get().getOrderId());
-                    Bill bill = new Bill(cost, (byte) 0, trip.get().getOrderId(), customerId);
-                    result = billDao.save(bill) > 0;
+            if (DataValidator.isNumber(tripId)) {
+                trip = tripDao.findById(Long.parseLong(tripId));
+                if (trip.isPresent()) {
+                    long userId = trip.get().getUserId();
+                    List<Bus> busList = busDao.findByUserId(userId);
+                    if (!busList.isEmpty()) {
+                        bus = busList.get(0);
+                        long endDate = Instant.now().toEpochMilli();
+                        trip.get().setEndDate(endDate);
+                        int hours = DateUtil.hoursBetween(trip.get().getStartDate(), endDate);
+                        BigDecimal cost = bus.getRate().multiply(BigDecimal.valueOf(hours));
+                        trip.get().setCost(cost);
+                        result = transactionManager.finishTrip(trip.get());
+                    }
                 }
             }
-        } catch (DaoException e) {
-            throw new ServiceException("", e);
+        } catch (DaoException | TransactionException e) {
+            throw new ServiceException("Finish trip error", e);
         }
         return result;
     }

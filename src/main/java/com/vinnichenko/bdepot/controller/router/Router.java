@@ -4,9 +4,6 @@ public class Router {
     private String page;
     private RouterType type = RouterType.FORWARD;
 
-    public Router() {
-    }
-
     public Router(String page, RouterType type) {
         this.page = page;
         this.type = type;
@@ -22,11 +19,6 @@ public class Router {
 
     public RouterType getType() {
         return type;
-    }
-
-    public void setRedirect(String page) {
-        type = RouterType.REDIRECT;
-        this.page = page;
     }
 
     public void setForward(String page) {

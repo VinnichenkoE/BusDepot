@@ -1,7 +1,7 @@
 package com.vinnichenko.bdepot.model.creator;
 
 import com.vinnichenko.bdepot.model.entity.Order;
-import com.vinnichenko.bdepot.util.DateConverter;
+import com.vinnichenko.bdepot.util.DateUtil;
 
 import java.util.Map;
 
@@ -18,8 +18,8 @@ public class OrderCreator {
             order.setOrderId(Long.parseLong(parameters.get(ORDER_ID)));
         }
         order.setNumberOfSeats(Integer.parseInt(parameters.get(NUMBER_OF_SEATS)));
-        order.setStartDate(DateConverter.toLong(parameters.get(START_DATE)));
-        order.setEndDate(DateConverter.toLong(parameters.get(END_DATE)));
+        order.setStartDate(DateUtil.toLong(parameters.get(START_DATE)));
+        order.setEndDate(DateUtil.toLong(parameters.get(END_DATE)));
         order.setStartPoint(parameters.get(START_POINT));
         order.setEndPoint(parameters.get(END_POINT));
         order.setDistance(Integer.parseInt(parameters.get(DISTANCE)));

@@ -11,10 +11,9 @@ public class RequestParameter {
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String MESSAGE = "message";
+    public static final String WRONG_DATA_MESSAGE = "wrong_data";
     public static final String LANGUAGE = "lang";
     public static final String PARAMETERS = "parameters";
-    public static final String LANGUAGE_PARAMETER = "lang";
-    public static final String COMMAND_NAME = "commandName";
 
     public static final String USERS = "users";
     public static final String USER_LOGIN = "login";
@@ -24,9 +23,9 @@ public class RequestParameter {
     public static final String USER_NEW_PASSWORD = "newPassword";
     public static final String USER_NAME = "name";
     public static final String USER_SURNAME = "surname";
+    public static final String USER_IS_ACTIVE = "is_active";
     public static final String USER_PHONE_NUMBER = "phoneNumber";
     public static final String USER_ID = "user_id";
-    public static final String USER_ROLE = "role";
     public static final String USER_ROLE_INDEX = "role_index";
 
     public static final String BUS = "bus";
@@ -41,7 +40,6 @@ public class RequestParameter {
 
     public static final String ORDERS = "orders";
     public static final String ORDER = "order";
-    public static final String ID = "id";
     public static final String ORDER_ID = "order_id";
     public static final String DISTANCE = "distance";
     public static final String START_DATE = "start_date";
@@ -50,9 +48,8 @@ public class RequestParameter {
     public static final String END_POINT = "end_point";
 
     public static final String TRIPS = "trips";
-    public static final String CONTENT_TYPE = "Content-Type";
-    public static final String CONTENT_LENGTH = "Content-Type";
-    public static final String CONTENT_DISPOSITION = "Content-Disposition";
+    public static final String TRIP_ID = "trip_id";
+
 
     private RequestParameter(){
     }

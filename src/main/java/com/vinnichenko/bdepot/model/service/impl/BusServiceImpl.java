@@ -80,32 +80,37 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public Optional<Bus> findById(int id) throws ServiceException {
+    public Optional<Bus> findById(String stringId) throws ServiceException {
         BusDao dao = DaoFactory.getInstance().getBusDao();
-        Optional<Bus> result;
-        try {
-            result = dao.findById(id);
-        } catch (DaoException e) {
-            throw new ServiceException("Find by id error", e);
+        Optional<Bus> result = Optional.empty();
+        if (DataValidator.isNumber(stringId)) {
+            int id = Integer.parseInt(stringId);
+            try {
+                result = dao.findById(id);
+            } catch (DaoException e) {
+                throw new ServiceException("Find by id error", e);
+            }
         }
         return result;
     }
 
     @Override
-    public boolean appointUser(int busId, long userId) throws ServiceException {
+    public boolean appointUser(String stringBusId, String stringUserId) throws ServiceException {
         BusDao dao = DaoFactory.getInstance().getBusDao();
-        boolean result;
-        try {
-            Optional<Bus> bus = findById(busId);
+        boolean result = false;
+        long userId;
+        if (DataValidator.isNumber(stringUserId)) {
+            userId = Long.parseLong(stringUserId);
+            Optional<Bus> bus = findById(stringBusId);
             if (bus.isPresent()) {
                 bus.get().setUserId(userId);
                 bus.get().setStatus(Bus.BusStatus.READY);
-                result = dao.update(bus.get());
-            } else {
-                result = false;
+                try {
+                    result = dao.update(bus.get());
+                } catch (DaoException e) {
+                    throw new ServiceException("Appoint user error", e);
+                }
             }
-        } catch (DaoException e) {
-            throw new ServiceException("Appoint user error", e);
         }
         return result;
     }
@@ -118,5 +123,24 @@ public class BusServiceImpl implements BusService {
         } catch (DaoException e) {
             throw new ServiceException("Update bus error", e);
         }
+    }
+
+    @Override
+    public boolean changeBusStatus(String busId, String statusId) throws ServiceException {
+        BusDao dao = DaoFactory.getInstance().getBusDao();
+        boolean result = false;
+        if (DataValidator.isNumber(statusId)) {
+            Bus.BusStatus status = Bus.BusStatus.values()[Integer.parseInt(statusId)];
+            Optional<Bus> bus = findById(busId);
+            if (bus.isPresent()) {
+                bus.get().setStatus(status);
+                try {
+                    result = dao.update(bus.get());
+                } catch (DaoException e) {
+                    throw new ServiceException("Change bus status error");
+                }
+            }
+        }
+        return result;
     }
 }

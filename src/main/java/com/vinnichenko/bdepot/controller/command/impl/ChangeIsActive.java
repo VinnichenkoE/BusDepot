@@ -14,15 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-public class ChangeIsActive implements Command {
+import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+public class ChangeIsActive implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router("controller?command=view_users");
-        String login = req.getParameter("user_login");
-        byte isActive = Byte.parseByte(req.getParameter("is_active"));
+        Router router = new Router(PagePath.VIEW_USERS);
+        String login = req.getParameter(USER_LOGIN);
+        byte isActive = Byte.parseByte(req.getParameter(USER_IS_ACTIVE));
         UserService userService = ServiceFactory.getInstance().getUserService();
         Optional<User> user;
         try {
@@ -30,10 +31,12 @@ public class ChangeIsActive implements Command {
             if (user.isPresent()) {
                 user.get().setIsActive(isActive);
                 userService.updateUser(user.get());
+            } else {
+                req.setAttribute(WRONG_DATA_MESSAGE, true);
             }
         } catch (ServiceException e) {
             logger.error("Change is active error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

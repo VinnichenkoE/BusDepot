@@ -19,7 +19,6 @@ import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
 public class ViewTrips implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -31,11 +30,11 @@ public class ViewTrips implements Command {
         try {
             if (user.getRole() == User.Role.DRIVER) {
                 trips = service.findByUserId(user.getUserId());
-                req.setAttribute(TRIPS, trips); //TODO
+                req.setAttribute(TRIPS, trips);
             }
         } catch (ServiceException e) {
             logger.error("view trips error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

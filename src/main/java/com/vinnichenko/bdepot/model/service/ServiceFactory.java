@@ -9,7 +9,6 @@ public final class ServiceFactory {
     private final OrderService orderService = new OrderServiceImpl();
     private final BusService busService = new BusServiceImpl();
     private final TripService tripService = new TripServiceImpl();
-    private final BillService billService = new BillServiceImpl();
 
     private ServiceFactory() {
     }
@@ -28,10 +27,6 @@ public final class ServiceFactory {
 
     public TripService getTripService() {
         return tripService;
-    }
-
-    public BillService getBillService() {
-        return billService;
     }
 
     public static ServiceFactory getInstance() {

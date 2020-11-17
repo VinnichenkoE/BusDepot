@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import static com.vinnichenko.bdepot.controller.SessionParameter.*;
-
 public class Logout implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {

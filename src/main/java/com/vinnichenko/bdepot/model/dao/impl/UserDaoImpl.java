@@ -15,13 +15,18 @@ import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 public class UserDaoImpl implements UserDao {
 
     private static final String SQL_FIND_PASSWORD_BY_LOGIN = "SELECT password FROM users WHERE login = ?;";
-    private static final String SQL_SELECT_USER = "SELECT user_id, login, is_active, name, surname, phone_number, role_id_fk FROM users WHERE login = ?;";
-    private static final String SQL_INSERT_USER = "INSERT INTO users (login, password, is_active, name, surname, phone_number, role_id_fk) values (?, ?, 1, ? , ? , ? , ?);";
-    private static final String SQL_FIND_FREE_DRIVERS = "SELECT user_id, login, is_active, name, surname, phone_number, role_id_fk FROM users WHERE role_id_fk = 1 AND is_active = 1 AND user_id NOT IN (SELECT user_id_fk FROM buses where user_id_fk > 0);";
-    private static final String SQL_UPDATE_USER = "UPDATE users SET login = ?, is_active = ?, name = ?, surname = ?, phone_number = ? WHERE user_id = ?;";
+    private static final String SQL_SELECT_USER = "SELECT user_id, login, is_active, name, surname, phone_number," +
+            " role_id_fk FROM users WHERE login = ?;";
+    private static final String SQL_INSERT_USER = "INSERT INTO users (login, password, is_active, name, surname," +
+            " phone_number, role_id_fk) values (?, ?, 1, ? , ? , ? , ?);";
+    private static final String SQL_FIND_FREE_DRIVERS = "SELECT user_id, login, is_active, name, surname," +
+            " phone_number, role_id_fk FROM users WHERE role_id_fk = 1 AND is_active = 1 AND user_id " +
+            "NOT IN (SELECT user_id_fk FROM buses where user_id_fk > 0);";
+    private static final String SQL_UPDATE_USER = "UPDATE users SET login = ?, is_active = ?, name = ?, " +
+            "surname = ?, phone_number = ? WHERE user_id = ?;";
     private static final String SQL_UPDATE_PASSWORD = "UPDATE users SET password = ? WHERE login = ?;";
-    private static final String SQL_FIND_ALL = "SELECT user_id, login, is_active, name, surname, phone_number, role_id_fk FROM users WHERE role_id_fk != 0;";
-
+    private static final String SQL_FIND_ALL = "SELECT user_id, login, is_active, name, surname, phone_number, " +
+            "role_id_fk FROM users WHERE role_id_fk != 0;";
     private ConnectionPool pool = ConnectionPool.INSTANCE;
 
     @Override
@@ -39,7 +44,7 @@ public class UserDaoImpl implements UserDao {
                 password = resultSet.getString(PASSWORD);
             }
         } catch (SQLException e) {
-            throw new DaoException("Error while finding password by login:=" + login, e);
+            throw new DaoException("Error while finding password by login", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(statement);
@@ -63,7 +68,7 @@ public class UserDaoImpl implements UserDao {
                 user = userFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException("Error while finding user by login:=" + login, e);
+            throw new DaoException("Error while finding user by login", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(statement);

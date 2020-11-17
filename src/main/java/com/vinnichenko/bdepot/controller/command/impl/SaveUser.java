@@ -3,6 +3,7 @@ package com.vinnichenko.bdepot.controller.command.impl;
 import com.vinnichenko.bdepot.controller.PagePath;
 import com.vinnichenko.bdepot.controller.command.Command;
 import com.vinnichenko.bdepot.controller.router.Router;
+import com.vinnichenko.bdepot.controller.router.RouterType;
 import com.vinnichenko.bdepot.exception.ServiceException;
 import com.vinnichenko.bdepot.model.creator.UserCreator;
 import com.vinnichenko.bdepot.model.entity.User;
@@ -22,11 +23,11 @@ import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
 public class SaveUser implements Command {
     private static final Logger logger = LogManager.getLogger();
-    private static final String ROLE_INDEX = "1";
+    private static final String DRIVER_ROLE_INDEX = "1";
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router(PagePath.WELCOME);
+        Router router = new Router(PagePath.WELCOME, RouterType.REDIRECT);
         UserService userService = ServiceFactory.getInstance().getUserService();
         Map<String, String> parameters = new HashMap<>();
         HttpSession session = req.getSession();
@@ -37,7 +38,7 @@ public class SaveUser implements Command {
         parameters.put(USER_PHONE_NUMBER, req.getParameter(USER_PHONE_NUMBER));
         User user = (User) session.getAttribute(USER);
         if (user != null && user.getRole() == User.Role.DISPATCHER) {
-            parameters.put(USER_ROLE_INDEX, ROLE_INDEX);
+            parameters.put(USER_ROLE_INDEX, DRIVER_ROLE_INDEX);
         }
         try {
             if (userService.saveUser(parameters) > 0) {

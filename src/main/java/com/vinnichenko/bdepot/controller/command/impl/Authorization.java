@@ -21,7 +21,6 @@ import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
 public class Authorization implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -41,7 +40,7 @@ public class Authorization implements Command {
             }
         } catch (ServiceException e) {
             logger.error("Error during authorization", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

@@ -1,8 +1,9 @@
 package com.vinnichenko.bdepot.model.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Trip {
+public class Trip implements Serializable, Cloneable {
     private long tripId;
     private long startDate;
     private long endDate;

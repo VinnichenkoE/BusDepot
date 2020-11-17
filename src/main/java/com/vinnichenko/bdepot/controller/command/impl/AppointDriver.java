@@ -1,6 +1,5 @@
 package com.vinnichenko.bdepot.controller.command.impl;
 
-
 import com.vinnichenko.bdepot.controller.PagePath;
 import com.vinnichenko.bdepot.controller.command.Command;
 import com.vinnichenko.bdepot.controller.router.Router;
@@ -13,27 +12,26 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AppointDriver implements Command {
+import static com.vinnichenko.bdepot.controller.PagePath.*;
+import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+public class AppointDriver implements Command {
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router("controller?command=view_buses");
-        String stringUserId = req.getParameter("user_id");
-        String stringVehicleId = req.getParameter("bus_id");
-        long userId;
-        if (stringUserId.equals("")) {
-            userId = 0L;
-        } else {
-            userId = Long.parseLong(stringUserId);
-        }
+        Router router = new Router(VIEW_BUSES);
+        String userId = req.getParameter(USER_ID);
+        String vehicleId = req.getParameter(BUS_ID);
         BusService busService = ServiceFactory.getInstance().getBusService();
         try {
-            busService.appointUser(Integer.parseInt(stringVehicleId), userId);
+            if (!busService.appointUser(vehicleId, userId)) {
+                router.setForward(APPOINT_DRIVER);
+                req.setAttribute(WRONG_DATA_MESSAGE, true);
+            }
         } catch (ServiceException e) {
             logger.error("Appoint driver error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

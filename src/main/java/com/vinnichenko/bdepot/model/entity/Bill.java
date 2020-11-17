@@ -1,8 +1,9 @@
 package com.vinnichenko.bdepot.model.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Bill {
+public class Bill implements Serializable, Cloneable {
 
     private long billId;
     private BigDecimal cost;

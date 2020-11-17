@@ -19,31 +19,27 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
-
 public class ChooseDriver implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
         Router router = new Router(PagePath.APPOINT_DRIVER);
-        String vehicleId = req.getParameter(BUS_ID);
+        String busId = req.getParameter(BUS_ID);
         BusService busService = ServiceFactory.getInstance().getBusService();
         UserService userService = ServiceFactory.getInstance().getUserService();
-
         try {
             List<User> users = userService.findFreeDrivers();
-            Optional<Bus> bus = busService.findById(Integer.parseInt(vehicleId));
+            Optional<Bus> bus = busService.findById(busId);
             if (bus.isPresent()) {
                 req.setAttribute(BUS, bus.get());
                 req.setAttribute(USERS, users);
             } else {
-
-                router.setForward(PagePath.ERROR_404);
+                req.setAttribute(WRONG_DATA_MESSAGE, true);
             }
         } catch (ServiceException e) {
             logger.error("Choose driver error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

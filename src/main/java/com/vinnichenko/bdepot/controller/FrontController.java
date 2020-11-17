@@ -3,6 +3,7 @@ package com.vinnichenko.bdepot.controller;
 import com.vinnichenko.bdepot.controller.command.Command;
 import com.vinnichenko.bdepot.controller.command.CommandProvider;
 import com.vinnichenko.bdepot.controller.router.Router;
+import com.vinnichenko.bdepot.model.pool.ConnectionPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
 
 @WebServlet(urlPatterns = "/controller")
 public class FrontController extends HttpServlet {
@@ -23,6 +23,12 @@ public class FrontController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         processRequest(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        ConnectionPool.INSTANCE.destroyPool();
     }
 
     private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

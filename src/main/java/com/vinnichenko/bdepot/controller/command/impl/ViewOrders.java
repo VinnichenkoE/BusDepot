@@ -1,6 +1,5 @@
 package com.vinnichenko.bdepot.controller.command.impl;
 
-
 import com.vinnichenko.bdepot.controller.PagePath;
 import com.vinnichenko.bdepot.controller.command.Command;
 import com.vinnichenko.bdepot.controller.router.Router;
@@ -20,12 +19,11 @@ import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
 public class ViewOrders implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {
-        Router router = new Router(PagePath.VIEW_ORDERS);
+        Router router = new Router(PagePath.VIEW_ORDERS_PAGE);
         OrderService orderService = ServiceFactory.getInstance().getOrderService();
         User user = (User) req.getSession().getAttribute(USER);
         List<Order> orders;
@@ -38,7 +36,7 @@ public class ViewOrders implements Command {
             req.setAttribute(ORDERS, orders);
         } catch (ServiceException e) {
             logger.error("View orders error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

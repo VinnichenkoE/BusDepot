@@ -14,13 +14,25 @@ import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
 public class BusDaoImpl implements BusDao {
 
-    private static final String SQL_SAVE = "INSERT INTO buses (brand, model, registration_number, number_of_seats, rate, image_name, bus_status_id_fk) VALUES (?, ?, ?, ?, ?, ?, 3);";
-    private static final String SQL_FIND_FREE_VEHICLES_BY_NUMBER_SEATS = "SELECT bus_id, brand, model, registration_number, number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses WHERE number_of_seats >= ? AND bus_status_id_fk = 0 AND user_id_fk > 0 AND user_id_fk NOT IN (SELECT user_id_fk FROM user_orders uo JOIN orders o ON uo.order_id_fk = o.order_id WHERE (? BETWEEN o.start_date and o.end_date) OR (? between o.start_date and o.end_date) OR (? <= o.start_date AND ? >= o.end_date));";
-    private static final String SQL_FIND_BY_USER_ID = "SELECT bus_id, brand, model, registration_number, number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses WHERE user_id_fk = ?;";
-    private static final String SQL_FIND_ALL = "SELECT bus_id, brand, model, registration_number, number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses;";
-    private static final String SQL_FIND_ALL_WITH_DRIVER = "SELECT b.bus_id, b.brand, b.model, b.registration_number, b.number_of_seats, b.rate, b.image_name, b.bus_status_id_fk, b.user_id_fk, u.login, u.is_active, u.name, u.surname, u.phone_number, u.role_id_fk FROM buses b LEFT JOIN users u ON b.user_id_fk = u.user_id;";
-    private static final String SQL_FIND_BY_ID = "SELECT bus_id, brand, model, registration_number, number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses WHERE bus_id = ?;";
-    private static final String SQL_UPDATE = "UPDATE buses SET brand = ?, model = ?, registration_number = ?, number_of_seats = ?, rate= ?, image_name = ?, bus_status_id_fk = ?, user_id_fk = ? WHERE bus_id = ?;";
+    private static final String SQL_SAVE = "INSERT INTO buses (brand, model, registration_number, number_of_seats, " +
+            "rate, image_name, bus_status_id_fk) VALUES (?, ?, ?, ?, ?, ?, 2);";
+    private static final String SQL_FIND_FREE_VEHICLES_BY_NUMBER_SEATS = "SELECT bus_id, brand, model, " +
+            "registration_number, number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses " +
+            "WHERE number_of_seats >= ? AND bus_status_id_fk = 0 AND user_id_fk > 0 AND user_id_fk NOT IN " +
+            "(SELECT user_id_fk FROM user_orders uo JOIN orders o ON uo.order_id_fk = o.order_id WHERE " +
+            "(? BETWEEN o.start_date and o.end_date) OR (? between o.start_date and o.end_date) " +
+            "OR (? <= o.start_date AND ? >= o.end_date));";
+    private static final String SQL_FIND_BY_USER_ID = "SELECT bus_id, brand, model, registration_number, " +
+            "number_of_seats, rate, image_name, bus_status_id_fk, user_id_fk FROM buses WHERE user_id_fk = ?;";
+    private static final String SQL_FIND_ALL = "SELECT bus_id, brand, model, registration_number, number_of_seats, " +
+            "rate, image_name, bus_status_id_fk, user_id_fk FROM buses;";
+    private static final String SQL_FIND_ALL_WITH_DRIVER = "SELECT b.bus_id, b.brand, b.model, b.registration_number, " +
+            "b.number_of_seats, b.rate, b.image_name, b.bus_status_id_fk, b.user_id_fk, u.login, u.is_active, " +
+            "u.name, u.surname, u.phone_number, u.role_id_fk FROM buses b LEFT JOIN users u ON b.user_id_fk = u.user_id;";
+    private static final String SQL_FIND_BY_ID = "SELECT bus_id, brand, model, registration_number, number_of_seats, " +
+            "rate, image_name, bus_status_id_fk, user_id_fk FROM buses WHERE bus_id = ?;";
+    private static final String SQL_UPDATE = "UPDATE buses SET brand = ?, model = ?, registration_number = ?, " +
+            "number_of_seats = ?, rate= ?, image_name = ?, bus_status_id_fk = ?, user_id_fk = ? WHERE bus_id = ?;";
     private static final String SQL_UPDATE_STATUS = "UPDATE buses SET bus_status_id_fk = ? WHERE user_id_fk = ?;";
     private ConnectionPool pool = ConnectionPool.INSTANCE;
 
@@ -125,7 +137,7 @@ public class BusDaoImpl implements BusDao {
                 vehicles.add(bus);
             }
         } catch (SQLException e) {
-            throw new DaoException("find all error", e);
+            throw new DaoException("Find all error", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(preparedStatement);
@@ -158,7 +170,7 @@ public class BusDaoImpl implements BusDao {
                 result.put(bus, user);
             }
         } catch (SQLException e) {
-            throw new DaoException("find all with drivers error", e);
+            throw new DaoException("Find all with drivers error", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(statement);
@@ -182,7 +194,7 @@ public class BusDaoImpl implements BusDao {
                 bus = busFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DaoException("find by id error", e);
+            throw new DaoException("Find by id error", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(preparedStatement);
@@ -253,7 +265,8 @@ public class BusDaoImpl implements BusDao {
         String imageName = resultSet.getString(IMAGE_NAME);
         int statusId = resultSet.getInt(BUSES_BUS_STATUS_ID);
         long userId = resultSet.getLong(BUSES_USER_ID);
-        Bus bus = new Bus(busId, brand, model, registrationNumber, numberOfSeats, rate, imageName,Bus.BusStatus.values()[statusId], userId);
+        Bus bus = new Bus(busId, brand, model, registrationNumber, numberOfSeats, rate,
+                imageName, Bus.BusStatus.values()[statusId], userId);
         return bus;
     }
 }

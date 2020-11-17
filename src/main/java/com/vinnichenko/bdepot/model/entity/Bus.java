@@ -3,12 +3,11 @@ package com.vinnichenko.bdepot.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Bus {
+public class Bus implements Serializable, Cloneable{
 
     public enum BusStatus implements Serializable {
         READY,
         REPAIR,
-        ON_WAY,
         NOT_ASSIGNED
     }
 

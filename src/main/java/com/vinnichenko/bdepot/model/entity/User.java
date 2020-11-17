@@ -2,7 +2,7 @@ package com.vinnichenko.bdepot.model.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable {
+public class User implements Serializable, Cloneable {
 
     public enum Role {
         DISPATCHER,

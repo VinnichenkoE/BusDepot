@@ -9,7 +9,7 @@
     <uri>customtags</uri>
     <tag>
         <name>todate</name>
-        <tag-class>com.vinnichenko.bdepot.controller.tag.DateTag</tag-class>
+        <tag-class>com.vinnichenko.bdepot.tag.DateTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>date</name>
@@ -19,7 +19,7 @@
     </tag>
     <tag>
         <name>pgn</name>
-        <tag-class>com.vinnichenko.bdepot.controller.tag.PaginationTag</tag-class>
+        <tag-class>com.vinnichenko.bdepot.tag.PaginationTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>pageAmount</name>

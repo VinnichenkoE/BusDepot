@@ -20,7 +20,6 @@ import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
 public class ChangePassword implements Command {
-
     private static final Logger logger = LogManager.getLogger();
 
     @Override
@@ -32,8 +31,7 @@ public class ChangePassword implements Command {
         parameters.put(USER_LOGIN, ((User) req.getSession().getAttribute(USER)).getLogin());
         UserService userService = ServiceFactory.getInstance().getUserService();
         try {
-            if (userService.updatePassword(parameters)) {
-            } else {
+            if (!userService.updatePassword(parameters)) {
                 parameters.put(USER_LOGIN, req.getParameter(USER_LOGIN));
                 parameters.put(USER_NAME, req.getParameter(USER_NAME));
                 parameters.put(USER_SURNAME, req.getParameter(USER_SURNAME));
@@ -43,7 +41,7 @@ public class ChangePassword implements Command {
             }
         } catch (ServiceException e) {
             logger.error("Change password error", e);
-            router.setForward(PagePath.ERROR_404);
+            router.setForward(PagePath.ERROR_500);
         }
         return router;
     }

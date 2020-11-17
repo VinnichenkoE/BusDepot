@@ -14,13 +14,19 @@ import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
 public class OrderDaoImpl implements OrderDao {
 
-    private static final String SQL_SUBMITTED_ORDERS = "SELECT order_id, number_of_seats, start_date, end_date, start_point, end_point, distance, order_status_id_fk FROM orders WHERE order_status_id_fk = 0;";
-    private static final String SQL_FIND_BY_ID = "SELECT order_id, number_of_seats, start_date, end_date, start_point, end_point, distance, order_status_id_fk FROM orders WHERE order_id = ?;";
-    private static final String SQL_SAVE_ORDER = "INSERT INTO orders (number_of_seats, start_date, end_date, start_point, end_point, distance, order_status_id_fk) VALUES (?, ?, ?, ?, ?, ?, 0);";
+    private static final String SQL_SUBMITTED_ORDERS = "SELECT order_id, number_of_seats, start_date, end_date, " +
+            "start_point, end_point, distance, order_status_id_fk FROM orders WHERE order_status_id_fk = 0;";
+    private static final String SQL_FIND_BY_ID = "SELECT order_id, number_of_seats, start_date, end_date, " +
+            "start_point, end_point, distance, order_status_id_fk FROM orders WHERE order_id = ?;";
+    private static final String SQL_SAVE_ORDER = "INSERT INTO orders (number_of_seats, start_date, end_date, " +
+            "start_point, end_point, distance, order_status_id_fk) VALUES (?, ?, ?, ?, ?, ?, 0);";
     private static final String SQL_SAVE_USER_ORDER = "INSERT INTO user_orders (user_id_fk, order_id_fk) VALUES (?, ?);";
     private static final String SQL_UPDATE_STATUS = "UPDATE orders SET order_status_id_fk = ? WHERE order_id = ?;";
-    private static final String SQL_FIND_USER_ORDERS = "SELECT o.order_id, o.number_of_seats, o.start_date, o.end_date, o.start_point, o.end_point, o.distance, o.order_status_id_fk FROM orders o JOIN user_orders u ON o.order_id = u.order_id_fk WHERE u.user_id_fk = ?;";
-    private static final String SQL_FIND_CUSTOMER_ID = "SELECT uo.user_id_fk FROM user_orders uo JOIN users u ON uo.user_id_fk = u.user_id WHERE u.role_id_fk = 2 AND order_id_fk = ?;";
+    private static final String SQL_FIND_USER_ORDERS = "SELECT o.order_id, o.number_of_seats, o.start_date, " +
+            "o.end_date, o.start_point, o.end_point, o.distance, o.order_status_id_fk FROM orders o JOIN user_orders u " +
+            "ON o.order_id = u.order_id_fk WHERE u.user_id_fk = ?;";
+    private static final String SQL_FIND_CUSTOMER_ID = "SELECT uo.user_id_fk FROM user_orders uo JOIN users u " +
+            "ON uo.user_id_fk = u.user_id WHERE u.role_id_fk = 2 AND order_id_fk = ?;";
     private ConnectionPool pool = ConnectionPool.INSTANCE;
 
     @Override
@@ -38,7 +44,7 @@ public class OrderDaoImpl implements OrderDao {
                 orders.add(order);
             }
         } catch (SQLException e) {
-            throw new DaoException("find submitted orders error", e);
+            throw new DaoException("Find submitted orders error", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(statement);
@@ -64,7 +70,7 @@ public class OrderDaoImpl implements OrderDao {
             }
             result = Optional.ofNullable(order);
         } catch (SQLException e) {
-            throw new DaoException("Error execution sql request", e);
+            throw new DaoException("Find order by id error", e);
         } finally {
             closeResultSet(resultSet);
             closeStatement(preparedStatement);
@@ -74,17 +80,12 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public long save(Order order, long userId) throws DaoException {
+    public long save(Order order, Connection connection) throws DaoException {
         PreparedStatement insertOrderStatement = null;
-        PreparedStatement insertUserOrderStatement = null;
-        Connection connection = null;
         ResultSet resultSet = null;
         long id = -1;
         try {
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
             insertOrderStatement = connection.prepareStatement(SQL_SAVE_ORDER, Statement.RETURN_GENERATED_KEYS);
-            insertUserOrderStatement = connection.prepareStatement(SQL_SAVE_USER_ORDER);
             insertOrderStatement.setInt(1, order.getNumberOfSeats());
             insertOrderStatement.setLong(2, order.getStartDate());
             insertOrderStatement.setLong(3, order.getEndDate());
@@ -95,52 +96,28 @@ public class OrderDaoImpl implements OrderDao {
             resultSet = insertOrderStatement.getGeneratedKeys();
             if (resultSet.next()) {
                 id = resultSet.getLong(1);
-                insertUserOrderStatement.setLong(1, userId);
-                insertUserOrderStatement.setLong(2, id);
-                insertUserOrderStatement.executeUpdate();
-                connection.commit();
             }
         } catch (SQLException e) {
-            rollback(connection);
-            throw new DaoException("save order error", e);
+            throw new DaoException("Save order error", e);
         } finally {
-            setTrueAutocommit(connection);
             closeResultSet(resultSet);
             closeStatement(insertOrderStatement);
-            closeStatement(insertUserOrderStatement);
-            pool.releaseConnection(connection);
         }
         return id;
     }
 
-    @Override
-    public boolean appointUser(long userId, long orderId) throws DaoException {
-        Connection connection = null;
-        PreparedStatement appointStatement = null;
-        PreparedStatement updateStatement = null;
+    public boolean saveUserOrder(long orderId, long userId, Connection connection) throws DaoException {
+        PreparedStatement insertUserOrderStatement = null;
         boolean result;
         try {
-            connection = pool.getConnection();
-            connection.setAutoCommit(false);
-            appointStatement = connection.prepareStatement(SQL_SAVE_USER_ORDER);
-            updateStatement = connection.prepareStatement(SQL_UPDATE_STATUS);
-            appointStatement.setLong(1, userId);
-            appointStatement.setLong(2, orderId);
-            result = appointStatement.executeUpdate() > 0;
-            if (result) {
-                updateStatement.setInt(1, Order.OrderStatus.PENDING.ordinal());
-                updateStatement.setLong(2, orderId);
-                result = updateStatement.executeUpdate() > 0;
-                connection.commit();
-            }
+            insertUserOrderStatement = connection.prepareStatement(SQL_SAVE_USER_ORDER);
+            insertUserOrderStatement.setLong(1, userId);
+            insertUserOrderStatement.setLong(2, orderId);
+            result = insertUserOrderStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            rollback(connection);
-            throw new DaoException("Appoint user error", e);
+            throw new DaoException("Save user order error", e);
         } finally {
-            setTrueAutocommit(connection);
-            closeStatement(appointStatement);
-            closeStatement(updateStatement);
-            pool.releaseConnection(connection);
+            closeStatement(insertUserOrderStatement);
         }
         return result;
     }
@@ -172,33 +149,29 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean updateOrderStatus(long orderId, Order.OrderStatus status) throws DaoException {
-        Connection connection = null;
+    public boolean updateOrderStatus(long orderId, Order.OrderStatus status, Connection connection)
+            throws DaoException {
         PreparedStatement preparedStatement = null;
         boolean result;
         try {
-            connection = pool.getConnection();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_STATUS);
             preparedStatement.setInt(1, status.ordinal());
             preparedStatement.setLong(2, orderId);
             result = preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new DaoException("update order status error", e);
+            throw new DaoException("Update order status error", e);
         } finally {
             closeStatement(preparedStatement);
-            pool.releaseConnection(connection);
         }
         return result;
     }
 
     @Override
-    public long findCustomerId(long orderId) throws DaoException {
-        Connection connection = null;
+    public long findCustomerId(long orderId, Connection connection) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         long id = -1L;
         try {
-            connection = pool.getConnection();
             statement = connection.prepareStatement(SQL_FIND_CUSTOMER_ID);
             statement.setLong(1, orderId);
             resultSet = statement.executeQuery();
@@ -210,7 +183,6 @@ public class OrderDaoImpl implements OrderDao {
         } finally {
             closeResultSet(resultSet);
             closeStatement(statement);
-            pool.releaseConnection(connection);
         }
         return id;
     }
@@ -224,7 +196,8 @@ public class OrderDaoImpl implements OrderDao {
         String endPoint = resultSet.getString(END_POINT);
         int distance = resultSet.getInt(DISTANCE);
         int statusId = resultSet.getInt(ORDERS_ORDER_STATUS_ID);
-        Order order = new Order(orderId, numberOfSeats, startDate, endDate, startPoint, endPoint, distance, Order.OrderStatus.values()[statusId]);
+        Order order = new Order(orderId, numberOfSeats, startDate, endDate, startPoint, endPoint, distance,
+                Order.OrderStatus.values()[statusId]);
         return order;
     }
 }

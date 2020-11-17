@@ -45,7 +45,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByLogin(String login) throws ServiceException {
-        UserDao dao = DaoFactory.getInstance().getUserDao();
+        DaoFactory factory = DaoFactory.getInstance();
+        UserDao dao = factory.getUserDao();
         try {
             return dao.findUserByLogin(login);
         } catch (DaoException e) {
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
         User user;
         try {
             boolean isLoginExist = findUserByLogin(parameters.get(USER_LOGIN)).isPresent();
-            if (DataValidator.checkRegistrationData(parameters) && !isLoginExist) {
+            if (DataValidator.checkUserData(parameters) && !isLoginExist) {
                 user = UserCreator.createUser(parameters);
                 id = userDao.saveUser(user, PasswordEncoder.getSaltedHash(parameters.get(PASSWORD)));
                 if (id > 0) {
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
                     parameters.put(MESSAGE, LOGIN_ERROR);
                 }
             }
-            if (DataValidator.checkUpdateData(parameters)) {
+            if (DataValidator.checkUserData(parameters)) {
                 user = UserCreator.createUser(parameters);
                 result = userDao.updateUser(user);
             }
