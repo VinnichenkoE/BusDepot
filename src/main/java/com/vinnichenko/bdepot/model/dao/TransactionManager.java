@@ -12,6 +12,9 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * The type Transaction manager.
+ */
 public class TransactionManager {
     private static final TransactionManager INSTANCE = new TransactionManager();
     private static final Logger LOGGER = LogManager.getLogger();
@@ -19,10 +22,22 @@ public class TransactionManager {
     private TransactionManager() {
     }
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static TransactionManager getInstance() {
         return INSTANCE;
     }
 
+    /**
+     * Start trip.
+     *
+     * @param trip the trip
+     * @return the boolean
+     * @throws TransactionException the transaction exception
+     */
     public boolean startTrip(Trip trip) throws TransactionException {
         Connection connection = null;
         OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
@@ -45,6 +60,13 @@ public class TransactionManager {
         return result;
     }
 
+    /**
+     * Finish trip.
+     *
+     * @param trip the trip
+     * @return the boolean
+     * @throws TransactionException the transaction exception
+     */
     public boolean finishTrip(Trip trip) throws TransactionException {
         Connection connection = null;
         OrderDao orderDao = DaoFactory.getInstance().getOrderDao();
@@ -74,6 +96,14 @@ public class TransactionManager {
         return result;
     }
 
+    /**
+     * Add order.
+     *
+     * @param order  the order
+     * @param userId the user id
+     * @return the long
+     * @throws TransactionException the transaction exception
+     */
     public long addOrder(Order order, long userId) throws TransactionException {
         Connection connection = null;
         long id;
@@ -95,6 +125,14 @@ public class TransactionManager {
         return id;
     }
 
+    /**
+     * Appoint driver.
+     *
+     * @param userId  the user id
+     * @param orderId the order id
+     * @return the boolean
+     * @throws TransactionException the transaction exception
+     */
     public boolean appointDriver(long userId, long orderId) throws TransactionException {
         Connection connection = null;
         boolean result;

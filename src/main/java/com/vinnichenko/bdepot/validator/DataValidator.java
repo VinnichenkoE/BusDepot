@@ -9,6 +9,10 @@ import java.util.regex.Pattern;
 
 import static com.vinnichenko.bdepot.model.ParameterKey.*;
 
+/**
+ * The type Data validator.
+ * Checks the parameters for their compliance with certain criteria.
+ */
 public class DataValidator {
     private static final String LOGIN_REGEX = "[\\d\\p{LC}]{4,25}";
     private static final String PASSWORD_REGEX = "[\\d\\p{LC}]{4,16}";
@@ -29,84 +33,14 @@ public class DataValidator {
     private static final int MIN_DISTANCE = 1;
     private static final int MAX_DISTANCE = 9_999;
 
-
-    public static boolean checkParam(String param, String regex) {
-        boolean result = false;
-        if (param != null && regex != null) {
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(param);
-            result = matcher.matches();
-        }
-        return result;
-    }
-
-    public static boolean checkPassword(String password) {
-        boolean result = false;
-        if (password != null) {
-            Pattern pattern = Pattern.compile(PASSWORD_REGEX);
-            Matcher matcher = pattern.matcher(password);
-            result = matcher.matches();
-        }
-        return result;
-    }
-
-    public static boolean checkNumberOfSeats(String numberOfSeats) {
-        boolean result = false;
-        if (checkParam(numberOfSeats, NUMBER_REGEX)) {
-            int numberSeats = Integer.parseInt(numberOfSeats);
-            result = numberSeats >= MIN_NUMBER_SEATS
-                    && numberSeats <= MAX_NUMBER_SEATS;
-        }
-        return result;
-    }
-
-    public static boolean checkDate(String startDate, String endDate) {
-        boolean result = false;
-        if (checkParam(startDate, DATE_REGEX) && checkParam(endDate, DATE_REGEX)) {
-            long now = Instant.now().toEpochMilli();
-            long start = DateUtil.toLong(startDate);
-            long end = DateUtil.toLong(endDate);
-            result = start > now && end > now && end > start;
-        }
-        return result;
-    }
-
-    public static boolean checkDistance(String distance) {
-        boolean result = false;
-        if (checkParam(distance, NUMBER_REGEX)) {
-            int dist = Integer.parseInt(distance);
-            result = dist >= MIN_DISTANCE
-                    && dist <= MAX_DISTANCE;
-        }
-        return result;
-    }
-
-    public static boolean checkOrderData(Map<String, String> parameters) {
-        boolean result = true;
-        if (!checkNumberOfSeats(parameters.get(NUMBER_OF_SEATS))) {
-            result = false;
-            parameters.put(NUMBER_OF_SEATS, EMPTY);
-        }
-        if (!checkDate(parameters.get(START_DATE), parameters.get(END_DATE))) {
-            result = false;
-            parameters.put(START_DATE, EMPTY);
-            parameters.put(END_DATE, EMPTY);
-        }
-        if (!checkParam(parameters.get(START_POINT), POINT_NAME_REGEX)) {
-            result = false;
-            parameters.put(START_POINT, EMPTY);
-        }
-        if (!checkParam(parameters.get(END_POINT), POINT_NAME_REGEX)) {
-            result = false;
-            parameters.put(END_POINT, EMPTY);
-        }
-        if (!checkDistance(parameters.get(DISTANCE))) {
-            result = false;
-            parameters.put(DISTANCE, EMPTY);
-        }
-        return result;
-    }
-
+    /**
+     * Check user data boolean.
+     * Validate the map of user parameters.
+     * Uses separate methods to test each specific parameter.
+     *
+     * @param parameters the parameters
+     * @return the boolean
+     */
     public static boolean checkUserData(Map<String, String> parameters) {
         boolean result = true;
         if (parameters.containsKey(USER_LOGIN)) {
@@ -136,6 +70,48 @@ public class DataValidator {
         return result;
     }
 
+    /**
+     * Check order data boolean.
+     * Validate the map of order parameters.
+     * Uses separate methods to test each specific parameter.
+     *
+     * @param parameters the parameters
+     * @return the boolean
+     */
+    public static boolean checkOrderData(Map<String, String> parameters) {
+        boolean result = true;
+        if (!checkNumberOfSeats(parameters.get(NUMBER_OF_SEATS))) {
+            result = false;
+            parameters.put(NUMBER_OF_SEATS, EMPTY);
+        }
+        if (!checkDate(parameters.get(START_DATE), parameters.get(END_DATE))) {
+            result = false;
+            parameters.put(START_DATE, EMPTY);
+            parameters.put(END_DATE, EMPTY);
+        }
+        if (!checkParam(parameters.get(START_POINT), POINT_NAME_REGEX)) {
+            result = false;
+            parameters.put(START_POINT, EMPTY);
+        }
+        if (!checkParam(parameters.get(END_POINT), POINT_NAME_REGEX)) {
+            result = false;
+            parameters.put(END_POINT, EMPTY);
+        }
+        if (!checkDistance(parameters.get(DISTANCE))) {
+            result = false;
+            parameters.put(DISTANCE, EMPTY);
+        }
+        return result;
+    }
+
+    /**
+     * Check bus data boolean.
+     * Validate the map of user parameters.
+     * Uses separate methods to test each specific parameter.
+     *
+     * @param parameters the parameters
+     * @return the boolean
+     */
     public static boolean checkBusData(Map<String, String> parameters) {
         boolean result = true;
         if (!checkParam(parameters.get(BRAND), BRAND_REGEX)) {
@@ -160,6 +136,96 @@ public class DataValidator {
         }
         return result;
     }
+
+    /**
+     * Check param boolean.
+     *
+     * @param param the param
+     * @param regex the regex
+     * @return the boolean
+     */
+    public static boolean checkParam(String param, String regex) {
+        boolean result = false;
+        if (param != null && regex != null) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(param);
+            result = matcher.matches();
+        }
+        return result;
+    }
+
+    /**
+     * Check password boolean.
+     *
+     * @param password the password
+     * @return the boolean
+     */
+    public static boolean checkPassword(String password) {
+        boolean result = false;
+        if (password != null) {
+            Pattern pattern = Pattern.compile(PASSWORD_REGEX);
+            Matcher matcher = pattern.matcher(password);
+            result = matcher.matches();
+        }
+        return result;
+    }
+
+    /**
+     * Check number of seats boolean.
+     *
+     * @param numberOfSeats the number of seats
+     * @return the boolean
+     */
+    public static boolean checkNumberOfSeats(String numberOfSeats) {
+        boolean result = false;
+        if (checkParam(numberOfSeats, NUMBER_REGEX)) {
+            int numberSeats = Integer.parseInt(numberOfSeats);
+            result = numberSeats >= MIN_NUMBER_SEATS
+                    && numberSeats <= MAX_NUMBER_SEATS;
+        }
+        return result;
+    }
+
+    /**
+     * Check date boolean.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @return the boolean
+     */
+    public static boolean checkDate(String startDate, String endDate) {
+        boolean result = false;
+        if (checkParam(startDate, DATE_REGEX) && checkParam(endDate, DATE_REGEX)) {
+            long now = Instant.now().toEpochMilli();
+            long start = DateUtil.toLong(startDate);
+            long end = DateUtil.toLong(endDate);
+            result = start > now && end > now && end > start;
+        }
+        return result;
+    }
+
+    /**
+     * Check distance boolean.
+     *
+     * @param distance the distance
+     * @return the boolean
+     */
+    public static boolean checkDistance(String distance) {
+        boolean result = false;
+        if (checkParam(distance, NUMBER_REGEX)) {
+            int dist = Integer.parseInt(distance);
+            result = dist >= MIN_DISTANCE
+                    && dist <= MAX_DISTANCE;
+        }
+        return result;
+    }
+
+    /**
+     * Is number boolean.
+     *
+     * @param number the number
+     * @return the boolean
+     */
     public static boolean isNumber(String number) {
         boolean result = false;
         if (number != null) {

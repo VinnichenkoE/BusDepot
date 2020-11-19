@@ -3,7 +3,11 @@ package com.vinnichenko.bdepot.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Bill implements Serializable, Cloneable {
+/**
+ * The type Bill.
+ * Business data object: bill.
+ */
+public class Bill implements Serializable {
 
     private long billId;
     private BigDecimal cost;
@@ -11,9 +15,20 @@ public class Bill implements Serializable, Cloneable {
     private long orderId;
     private long userId;
 
+    /**
+     * Instantiates a new Bill.
+     */
     public Bill() {
     }
 
+    /**
+     * Instantiates a new Bill.
+     *
+     * @param cost    the cost
+     * @param isPayed the is payed
+     * @param orderId the order id
+     * @param userId  the user id
+     */
     public Bill(BigDecimal cost, byte isPayed, long orderId, long userId) {
         this.cost = cost;
         this.isPayed = isPayed;
@@ -21,6 +36,15 @@ public class Bill implements Serializable, Cloneable {
         this.userId = userId;
     }
 
+    /**
+     * Instantiates a new Bill.
+     *
+     * @param billId  the bill id
+     * @param cost    the cost
+     * @param isPayed the is payed
+     * @param orderId the order id
+     * @param userId  the user id
+     */
     public Bill(long billId, BigDecimal cost, byte isPayed, long orderId, long userId) {
         this.billId = billId;
         this.cost = cost;
@@ -29,42 +53,92 @@ public class Bill implements Serializable, Cloneable {
         this.userId = userId;
     }
 
+    /**
+     * Gets bill id.
+     *
+     * @return the bill id
+     */
     public long getBillId() {
         return billId;
     }
 
+    /**
+     * Sets bill id.
+     *
+     * @param billId the bill id
+     */
     public void setBillId(long billId) {
         this.billId = billId;
     }
 
+    /**
+     * Gets cost.
+     *
+     * @return the cost
+     */
     public BigDecimal getCost() {
         return cost;
     }
 
+    /**
+     * Sets cost.
+     *
+     * @param cost the cost
+     */
     public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
+    /**
+     * Gets is payed.
+     *
+     * @return the is payed
+     */
     public byte getIsPayed() {
         return isPayed;
     }
 
+    /**
+     * Sets is payed.
+     *
+     * @param isPayed the is payed
+     */
     public void setIsPayed(byte isPayed) {
         this.isPayed = isPayed;
     }
 
+    /**
+     * Gets order id.
+     *
+     * @return the order id
+     */
     public long getOrderId() {
         return orderId;
     }
 
+    /**
+     * Sets order id.
+     *
+     * @param orderId the order id
+     */
     public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(long userId) {
         this.userId = userId;
     }

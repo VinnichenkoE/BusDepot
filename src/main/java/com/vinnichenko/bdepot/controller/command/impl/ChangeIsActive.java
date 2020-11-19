@@ -16,6 +16,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Change is active.
+ */
 public class ChangeIsActive implements Command {
     private static final Logger logger = LogManager.getLogger();
 

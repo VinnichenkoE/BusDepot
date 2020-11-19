@@ -13,11 +13,20 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * The type Photo file manager.
+ */
 public class PhotoFileManager {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final String UPLOAD_DIRECTORY = "C:\\uploads";
     private static final String FILE_EXTENSION = ".jpg";
 
+    /**
+     * Add optional.
+     *
+     * @param photoParts the photo parts
+     * @return the optional
+     */
     public Optional<String> add(Collection<Part> photoParts) {
         Path path = Paths.get(UPLOAD_DIRECTORY);
         if (!Files.exists(path)) {

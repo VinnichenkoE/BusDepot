@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * The type Front controller.
+ */
 @WebServlet(urlPatterns = "/controller")
 public class FrontController extends HttpServlet {
     @Override

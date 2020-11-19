@@ -20,6 +20,9 @@ import java.util.Optional;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
+/**
+ * The type Authorization.
+ */
 public class Authorization implements Command {
     private static final Logger logger = LogManager.getLogger();
 

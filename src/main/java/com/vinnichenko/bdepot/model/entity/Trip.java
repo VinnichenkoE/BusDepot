@@ -3,7 +3,11 @@ package com.vinnichenko.bdepot.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Trip implements Serializable, Cloneable {
+/**
+ * The type Trip.
+ * Business data object: trip.
+ */
+public class Trip implements Serializable {
     private long tripId;
     private long startDate;
     private long endDate;
@@ -11,9 +15,21 @@ public class Trip implements Serializable, Cloneable {
     private long orderId;
     private long userId;
 
+    /**
+     * Instantiates a new Trip.
+     */
     public Trip() {
     }
 
+    /**
+     * Instantiates a new Trip.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param cost      the cost
+     * @param orderId   the order id
+     * @param userId    the user id
+     */
     public Trip(long startDate, long endDate, BigDecimal cost, long orderId, long userId) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -22,6 +38,16 @@ public class Trip implements Serializable, Cloneable {
         this.userId = userId;
     }
 
+    /**
+     * Instantiates a new Trip.
+     *
+     * @param tripId    the trip id
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param cost      the cost
+     * @param orderId   the order id
+     * @param userId    the user id
+     */
     public Trip(long tripId, long startDate, long endDate, BigDecimal cost, long orderId, long userId) {
         this.tripId = tripId;
         this.startDate = startDate;
@@ -31,50 +57,110 @@ public class Trip implements Serializable, Cloneable {
         this.userId = userId;
     }
 
+    /**
+     * Gets trip id.
+     *
+     * @return the trip id
+     */
     public long getTripId() {
         return tripId;
     }
 
+    /**
+     * Sets trip id.
+     *
+     * @param tripId the trip id
+     */
     public void setTripId(long tripId) {
         this.tripId = tripId;
     }
 
+    /**
+     * Gets start date.
+     *
+     * @return the start date
+     */
     public long getStartDate() {
         return startDate;
     }
 
+    /**
+     * Sets start date.
+     *
+     * @param startDate the start date
+     */
     public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 
+    /**
+     * Gets end date.
+     *
+     * @return the end date
+     */
     public long getEndDate() {
         return endDate;
     }
 
+    /**
+     * Sets end date.
+     *
+     * @param endDate the end date
+     */
     public void setEndDate(long endDate) {
         this.endDate = endDate;
     }
 
+    /**
+     * Gets cost.
+     *
+     * @return the cost
+     */
     public BigDecimal getCost() {
         return cost;
     }
 
+    /**
+     * Sets cost.
+     *
+     * @param cost the cost
+     */
     public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 
+    /**
+     * Gets order id.
+     *
+     * @return the order id
+     */
     public long getOrderId() {
         return orderId;
     }
 
+    /**
+     * Sets order id.
+     *
+     * @param orderId the order id
+     */
     public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(long userId) {
         this.userId = userId;
     }

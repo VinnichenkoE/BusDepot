@@ -12,6 +12,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
+/**
+ * The type Order dao.
+ */
 public class OrderDaoImpl implements OrderDao {
 
     private static final String SQL_SUBMITTED_ORDERS = "SELECT order_id, number_of_seats, start_date, end_date, " +

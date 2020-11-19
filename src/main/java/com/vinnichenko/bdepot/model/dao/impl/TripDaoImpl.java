@@ -13,6 +13,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
+/**
+ * The type Trip dao.
+ */
 public class TripDaoImpl implements TripDao {
 
     private static final String SQL_SAVE = "INSERT INTO trips (start_date, end_date, cost, order_id_fk, user_id_fk) " +

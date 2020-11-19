@@ -10,6 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Change language.
+ */
 public class ChangeLanguage implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {

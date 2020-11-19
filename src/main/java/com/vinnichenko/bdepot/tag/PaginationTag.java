@@ -6,10 +6,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * The type Pagination tag.
+ */
 public class PaginationTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger();
     private int numberPages;
 
+    /**
+     * Sets page amount.
+     *
+     * @param numberPages the number pages
+     */
     public void setPageAmount(int numberPages) {
         this.numberPages = numberPages;
     }

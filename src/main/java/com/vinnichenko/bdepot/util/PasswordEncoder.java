@@ -12,7 +12,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.tomcat.util.codec.binary.Base64;
 
-public class PasswordEncoder {
+/**
+ * The type Password encoder.
+ */
+public final class PasswordEncoder {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int ITERATIONS = 20 * 1000;
     private static final int SALT_LENGTH = 32;
@@ -21,6 +24,17 @@ public class PasswordEncoder {
     private static final String SECURE_RANDOM_ALGORITHM = "SHA1PRNG";
     private static final String SECRET_KEY_FACTORY_ALGORITHM = "PBKDF2WithHmacSHA1";
 
+    private PasswordEncoder() {
+    }
+
+    /**
+     * Gets salted hash.
+     * Encrypts password
+     *
+     * @param password the password
+     * @return the salted hash
+     * @throws UtilException the util exception
+     */
     public static String getSaltedHash(String password) throws UtilException {
         byte[] salt;
         try {
@@ -31,6 +45,15 @@ public class PasswordEncoder {
         return Base64.encodeBase64String(salt) + SEPARATOR + hash(password, salt);
     }
 
+    /**
+     * Check boolean.
+     * Сompares the entered password with the password stored in the database.
+     *
+     * @param password the password
+     * @param stored   the stored
+     * @return the boolean
+     * @throws UtilException the util exception
+     */
     public static boolean check(String password, String stored) throws UtilException {
         String[] saltAndPass = stored.split(SEPARATOR);
         if (saltAndPass.length != 2) {

@@ -15,6 +15,9 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Trip service.
+ */
 public class TripServiceImpl implements TripService {
     public boolean startTrip(long userId, long orderId) throws ServiceException {
         TransactionManager transactionManager = TransactionManager.getInstance();

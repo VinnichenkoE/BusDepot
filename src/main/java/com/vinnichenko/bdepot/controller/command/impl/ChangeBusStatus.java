@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Change bus status.
+ */
 public class ChangeBusStatus implements Command {
     private static final Logger logger = LogManager.getLogger();
 

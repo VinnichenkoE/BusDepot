@@ -12,6 +12,9 @@ import java.util.*;
 
 import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
+/**
+ * The type Bus dao.
+ */
 public class BusDaoImpl implements BusDao {
 
     private static final String SQL_SAVE = "INSERT INTO buses (brand, model, registration_number, number_of_seats, " +

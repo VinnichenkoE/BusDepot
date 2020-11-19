@@ -8,15 +8,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+/**
+ * The type Connection creator.
+ */
 class ConnectionCreator {
-
     private static final Logger logger = LogManager.getLogger();
-
     private static final String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc.url";
     private static final String DATABASE_USERNAME = "jdbc.username";
     private static final String DATABASE_PASSWORD = "jdbc.password";
     private static final String RESOURCE_NAME = "db";
+
+    private ConnectionCreator() {
+    }
 
     static {
         try {
@@ -27,6 +31,11 @@ class ConnectionCreator {
         }
     }
 
+    /**
+     * Create proxy connection.
+     *
+     * @return the proxy connection
+     */
     static ProxyConnection create() {
         Connection connection;
         ProxyConnection proxyConnection;
@@ -44,6 +53,9 @@ class ConnectionCreator {
         return proxyConnection;
     }
 
+    /**
+     * Deregister drivers.
+     */
     static void deregisterDrivers() {
         DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {
             try {

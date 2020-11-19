@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Appoint order.
+ */
 public class AppointOrder implements Command {
     private static final Logger logger = LogManager.getLogger();
 

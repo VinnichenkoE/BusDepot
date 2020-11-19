@@ -6,6 +6,9 @@ import com.vinnichenko.bdepot.model.entity.Bill;
 
 import java.sql.*;
 
+/**
+ * The type Bill dao.
+ */
 public class BillDaoImpl implements BillDao {
 
     private static final String SQL_SAVE = "INSERT INTO bills (cost, is_payed, order_id_fk, user_id_fk) " +

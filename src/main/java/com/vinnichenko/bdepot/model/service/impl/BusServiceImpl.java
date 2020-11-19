@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The type Bus service.
+ */
 public class BusServiceImpl implements BusService {
     @Override
     public int save(Map<String, String> parameters) throws ServiceException {

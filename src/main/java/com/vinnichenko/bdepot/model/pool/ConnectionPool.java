@@ -10,15 +10,21 @@ import java.util.Queue;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 
+/**
+ * The enum Connection pool.
+ * Provides connection of the application to the database.
+ */
 public enum ConnectionPool {
 
+    /**
+     * Instance connection pool.
+     */
     INSTANCE;
 
     private static final Logger logger = LogManager.getLogger();
     private static final int POOL_SIZE = 32;
     private final BlockingDeque<ProxyConnection> freeConnections;
     private final Queue<ProxyConnection> givenConnections;
-
 
     ConnectionPool() {
         freeConnections = new LinkedBlockingDeque<>(POOL_SIZE);
@@ -29,6 +35,12 @@ public enum ConnectionPool {
         }
     }
 
+    /**
+     * Gets connection.
+     * Issues a free connection from the blocking queue of free connections.
+     *
+     * @return the connection
+     */
     public Connection getConnection() {
         ProxyConnection connection = null;
         try {
@@ -40,6 +52,12 @@ public enum ConnectionPool {
         return connection;
     }
 
+    /**
+     * Release connection.
+     * Returns a previously given connection from the given connections queue.
+     *
+     * @param connection the connection
+     */
     public void releaseConnection(Connection connection) {
         if (connection instanceof ProxyConnection && givenConnections.remove(connection)) {
             freeConnections.offer((ProxyConnection) connection);
@@ -48,6 +66,9 @@ public enum ConnectionPool {
         }
     }
 
+    /**
+     * Destroy pool.
+     */
     public void destroyPool() {
         for (int i = 0; i < POOL_SIZE; i++) {
             try {

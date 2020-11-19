@@ -16,6 +16,9 @@ import java.util.List;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type View users.
+ */
 public class ViewUsers implements Command {
     private static final Logger logger = LogManager.getLogger();
 

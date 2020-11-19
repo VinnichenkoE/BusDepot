@@ -16,6 +16,9 @@ import java.util.HashMap;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Save order.
+ */
 public class SaveOrder implements Command {
     private static final Logger logger = LogManager.getLogger();
 

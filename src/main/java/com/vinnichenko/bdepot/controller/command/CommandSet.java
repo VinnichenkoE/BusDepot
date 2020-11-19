@@ -6,7 +6,13 @@ import java.util.stream.Stream;
 
 import static com.vinnichenko.bdepot.controller.command.CommandName.*;
 
+/**
+ * The enum Command set.
+ */
 public enum CommandSet {
+    /**
+     * Guest command set.
+     */
     GUEST(Stream.of(
             WELCOME_PAGE,
             REGISTRATION_PAGE,
@@ -14,6 +20,9 @@ public enum CommandSet {
             AUTHORIZATION,
             SAVE_USER).
             map(CommandName::getCommand).collect(Collectors.toSet())),
+    /**
+     * Customer command set.
+     */
     CUSTOMER(Stream.of(
             WELCOME_PAGE,
             CHANGE_LANGUAGE,
@@ -26,6 +35,9 @@ public enum CommandSet {
             CHANGE_PASSWORD,
             LOGOUT).
             map(CommandName::getCommand).collect(Collectors.toSet())),
+    /**
+     * Driver command set.
+     */
     DRIVER(Stream.of(
             WELCOME_PAGE,
             CHANGE_LANGUAGE,
@@ -42,6 +54,9 @@ public enum CommandSet {
             FINISH_TRIP,
             LOGOUT).
             map(CommandName::getCommand).collect(Collectors.toSet())),
+    /**
+     * Dispatcher command set.
+     */
     DISPATCHER(Stream.of(
             WELCOME_PAGE,
             CHANGE_LANGUAGE,
@@ -71,6 +86,11 @@ public enum CommandSet {
         this.commandSet = commandSet;
     }
 
+    /**
+     * Gets command set.
+     *
+     * @return the command set
+     */
     public Set<Command> getCommandSet() {
         return commandSet;
     }

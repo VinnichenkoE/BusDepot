@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Start trip.
+ */
 public class StartTrip implements Command {
     private static final Logger logger = LogManager.getLogger();
 

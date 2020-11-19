@@ -12,6 +12,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.model.dao.ColumnLabel.*;
 
+/**
+ * The type User dao.
+ */
 public class UserDaoImpl implements UserDao {
 
     private static final String SQL_FIND_PASSWORD_BY_LOGIN = "SELECT password FROM users WHERE login = ?;";

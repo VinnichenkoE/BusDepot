@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Save bus.
+ */
 public class SaveBus implements Command {
     private static final Logger logger = LogManager.getLogger();
 

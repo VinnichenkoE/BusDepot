@@ -7,10 +7,18 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 
+/**
+ * The type Date tag.
+ */
 public class DateTag extends TagSupport {
     private static final Logger LOGGER = LogManager.getLogger();
     private long date;
 
+    /**
+     * Sets date.
+     *
+     * @param date the date
+     */
     public void setDate(long date) {
         this.date = date;
     }

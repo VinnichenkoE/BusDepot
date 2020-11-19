@@ -20,6 +20,9 @@ import java.util.Map;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
+/**
+ * The type Update user.
+ */
 public class UpdateUser implements Command {
     private static final Logger logger = LogManager.getLogger();
 

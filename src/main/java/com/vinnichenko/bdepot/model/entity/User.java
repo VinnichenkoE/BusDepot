@@ -2,11 +2,28 @@ package com.vinnichenko.bdepot.model.entity;
 
 import java.io.Serializable;
 
-public class User implements Serializable, Cloneable {
+/**
+ * The type User.
+ * Business data object: user.
+ */
+public class User implements Serializable {
 
+    /**
+     * The enum Role.
+     * Describes the roles of users.
+     */
     public enum Role {
+        /**
+         * Dispatcher role.
+         */
         DISPATCHER,
+        /**
+         * Driver role.
+         */
         DRIVER,
+        /**
+         * Customer role.
+         */
         CUSTOMER;
     }
 
@@ -18,9 +35,22 @@ public class User implements Serializable, Cloneable {
     private String phoneNumber;
     private Role role;
 
+    /**
+     * Instantiates a new User.
+     */
     public User() {
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param login       the login
+     * @param isActive    the is active
+     * @param name        the name
+     * @param surname     the surname
+     * @param phoneNumber the phone number
+     * @param role        the role
+     */
     public User(String login, byte isActive, String name, String surname, String phoneNumber, Role role) {
         this.login = login;
         this.isActive = isActive;
@@ -30,6 +60,17 @@ public class User implements Serializable, Cloneable {
         this.role = role;
     }
 
+    /**
+     * Instantiates a new User.
+     *
+     * @param userId      the user id
+     * @param login       the login
+     * @param isActive    the is active
+     * @param name        the name
+     * @param surname     the surname
+     * @param phoneNumber the phone number
+     * @param role        the role
+     */
     public User(long userId, String login, byte isActive, String name, String surname, String phoneNumber, Role role) {
         this.userId = userId;
         this.login = login;
@@ -40,58 +81,128 @@ public class User implements Serializable, Cloneable {
         this.role = role;
     }
 
+    /**
+     * Gets user id.
+     *
+     * @return the user id
+     */
     public long getUserId() {
         return userId;
     }
 
+    /**
+     * Sets user id.
+     *
+     * @param userId the user id
+     */
     public void setUserId(long userId) {
         this.userId = userId;
     }
 
+    /**
+     * Gets login.
+     *
+     * @return the login
+     */
     public String getLogin() {
         return login;
     }
 
+    /**
+     * Sets login.
+     *
+     * @param login the login
+     */
     public void setLogin(String login) {
         this.login = login;
     }
 
-        public byte getIsActive() {
+    /**
+     * Gets is active.
+     *
+     * @return the is active
+     */
+    public byte getIsActive() {
         return isActive;
     }
 
+    /**
+     * Sets is active.
+     *
+     * @param isActive the is active
+     */
     public void setIsActive(byte isActive) {
         this.isActive = isActive;
     }
 
+    /**
+     * Gets name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets name.
+     *
+     * @param name the name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets surname.
+     *
+     * @return the surname
+     */
     public String getSurname() {
         return surname;
     }
 
+    /**
+     * Sets surname.
+     *
+     * @param surname the surname
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    /**
+     * Gets phone number.
+     *
+     * @return the phone number
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * Sets phone number.
+     *
+     * @param phoneNumber the phone number
+     */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Gets role.
+     *
+     * @return the role
+     */
     public Role getRole() {
         return role;
     }
 
+    /**
+     * Sets role.
+     *
+     * @param role the role
+     */
     public void setRole(Role role) {
         this.role = role;
     }

@@ -21,6 +21,9 @@ import java.util.Map;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
+/**
+ * The type Save user.
+ */
 public class SaveUser implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final String DRIVER_ROLE_INDEX = "1";

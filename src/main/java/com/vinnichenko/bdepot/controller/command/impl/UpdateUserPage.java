@@ -13,6 +13,9 @@ import java.util.Map;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
+/**
+ * The type Update user page.
+ */
 public class UpdateUserPage implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {

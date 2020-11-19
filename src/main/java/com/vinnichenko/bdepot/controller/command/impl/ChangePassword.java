@@ -19,6 +19,9 @@ import java.util.Map;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
+/**
+ * The type Change password.
+ */
 public class ChangePassword implements Command {
     private static final Logger logger = LogManager.getLogger();
 

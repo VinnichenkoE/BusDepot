@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import static com.vinnichenko.bdepot.controller.PagePath.*;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Appoint driver.
+ */
 public class AppointDriver implements Command {
     private static final Logger logger = LogManager.getLogger();
 

@@ -7,6 +7,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * The type Page security filter.
+ */
 @WebFilter(urlPatterns = "/jsp/*")
 public class PageSecurityFilter implements Filter {
 

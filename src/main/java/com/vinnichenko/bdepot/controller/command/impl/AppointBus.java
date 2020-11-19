@@ -19,6 +19,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Appoint bus.
+ */
 public class AppointBus implements Command {
     private static final Logger logger = LogManager.getLogger();
 

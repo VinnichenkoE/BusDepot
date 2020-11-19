@@ -17,6 +17,9 @@ import java.util.Set;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.*;
 
+/**
+ * The type Role security filter.
+ */
 @WebFilter(urlPatterns = "/*")
 public class RoleSecurityFilter implements Filter {
 

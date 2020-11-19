@@ -18,6 +18,9 @@ import java.util.List;
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
+/**
+ * The type View orders.
+ */
 public class ViewOrders implements Command {
     private static final Logger logger = LogManager.getLogger();
 

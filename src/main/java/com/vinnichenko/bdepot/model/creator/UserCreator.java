@@ -6,11 +6,20 @@ import java.util.Map;
 
 import static com.vinnichenko.bdepot.model.ParameterKey.*;
 
+/**
+ * The type User creator.
+ */
 public class UserCreator {
 
     private UserCreator() {
     }
 
+    /**
+     * Create user user.
+     *
+     * @param parameters the parameters
+     * @return the user
+     */
     public static User createUser(Map<String, String> parameters) {
         User user = new User();
         User.Role role;

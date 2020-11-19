@@ -14,6 +14,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Upload servlet.
+ */
 @WebServlet (urlPatterns = "/upload")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5,

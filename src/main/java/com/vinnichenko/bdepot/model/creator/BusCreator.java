@@ -7,11 +7,20 @@ import java.util.Map;
 
 import static com.vinnichenko.bdepot.model.ParameterKey.*;
 
+/**
+ * The type Bus creator.
+ */
 public class BusCreator {
 
     private BusCreator() {
     }
 
+    /**
+     * Create bus bus.
+     *
+     * @param parameters the parameters
+     * @return the bus
+     */
     public static Bus createBus(Map<String, String> parameters) {
         Bus bus = new Bus();
         if (parameters.containsKey(BUS_ID)) {

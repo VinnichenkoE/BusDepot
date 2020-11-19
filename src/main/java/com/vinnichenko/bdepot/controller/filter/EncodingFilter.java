@@ -4,6 +4,9 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
+/**
+ * The type Encoding filter.
+ */
 @WebFilter(urlPatterns = "/*")
 public class EncodingFilter implements Filter {
     private static final String ENCODING_TYPE = "UTF-8";

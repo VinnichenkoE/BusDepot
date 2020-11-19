@@ -20,6 +20,9 @@ import java.util.Map;
 import static com.vinnichenko.bdepot.controller.RequestParameter.BUSES;
 import static com.vinnichenko.bdepot.controller.SessionParameter.USER;
 
+/**
+ * The type View buses.
+ */
 public class ViewBuses implements Command {
     private static final Logger logger = LogManager.getLogger();
 

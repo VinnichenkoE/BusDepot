@@ -18,6 +18,9 @@ import java.util.Optional;
 import static com.vinnichenko.bdepot.model.ParameterKey.*;
 import static com.vinnichenko.bdepot.model.ErrorMessageType.*;
 
+/**
+ * The type User service.
+ */
 public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> authorize(Map<String, String> parameters) throws ServiceException {

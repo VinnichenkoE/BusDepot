@@ -19,6 +19,9 @@ import java.util.List;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.*;
 
+/**
+ * The type Welcome page.
+ */
 public class WelcomePage implements Command {
     private static final Logger logger = LogManager.getLogger();
     private static final int DEFAULT_NUMBER_ITEMS_PER_PAGE = 4;

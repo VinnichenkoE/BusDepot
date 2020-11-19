@@ -17,6 +17,9 @@ import java.util.Optional;
 
 import static com.vinnichenko.bdepot.controller.RequestParameter.USER_ID;
 
+/**
+ * The type Order service.
+ */
 public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findSubmittedOrders() throws ServiceException {

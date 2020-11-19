@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 
+/**
+ * The type Load image servlet.
+ */
 @WebServlet(urlPatterns = "/images/*")
 public class LoadImageServlet extends HttpServlet {
     private static final int BEGIN_INDEX = 1;

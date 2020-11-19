@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * The type Logout.
+ */
 public class Logout implements Command {
     @Override
     public Router execute(HttpServletRequest req, HttpServletResponse resp) {

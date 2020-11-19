@@ -7,11 +7,20 @@ import java.util.Map;
 
 import static com.vinnichenko.bdepot.model.ParameterKey.*;
 
+/**
+ * The type Order creator.
+ */
 public class OrderCreator {
 
     private OrderCreator() {
     }
 
+    /**
+     * Create order order.
+     *
+     * @param parameters the parameters
+     * @return the order
+     */
     public static Order createOrder(Map<String, String> parameters) {
         Order order = new Order();
         if (parameters.containsKey(ORDER_ID)) {
