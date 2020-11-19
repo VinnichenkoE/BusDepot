@@ -33,6 +33,10 @@ public class DataValidator {
     private static final int MIN_DISTANCE = 1;
     private static final int MAX_DISTANCE = 9_999;
 
+
+    private DataValidator() {
+    }
+
     /**
      * Check user data boolean.
      * Validate the map of user parameters.
